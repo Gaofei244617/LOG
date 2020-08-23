@@ -7,17 +7,23 @@
 #include <boost/log/sources/severity_channel_logger.hpp>
 
 /*************************************************************************************************/
-#define LOGDEBUG(logger)\
+#define TIDLOG_TRACE(logger)\
+    BOOST_LOG_SEV((logger.LoggerModule), (boost::log::trivial::severity_level::trace))
+
+#define TIDLOG_DEBUG(logger)\
     BOOST_LOG_SEV((logger.LoggerModule), (boost::log::trivial::severity_level::debug))
 
-#define LOGINFO(logger)\
+#define TIDLOG_INFO(logger)\
     BOOST_LOG_SEV((logger.LoggerModule), (boost::log::trivial::severity_level::info))
 
-#define LOGWARNING(logger)\
+#define TIDLOG_WARN(logger)\
     BOOST_LOG_SEV((logger.LoggerModule), (boost::log::trivial::severity_level::warning))
 
-#define LOGERROR(logger)\
+#define TIDLOG_ERROR(logger)\
     BOOST_LOG_SEV((logger.LoggerModule), (boost::log::trivial::severity_level::error))
+
+#define TIDLOG_FATAL(logger)\
+    BOOST_LOG_SEV((logger.LoggerModule), (boost::log::trivial::severity_level::fatal))
 
 /*************************************************************************************************/
 class TIDLog
