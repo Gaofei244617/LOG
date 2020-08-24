@@ -32,7 +32,8 @@ class TIDLog
 	using ChannelLogger = boost::log::sources::severity_channel_logger<SeverityLevel, std::string>;
 
 public:
-	TIDLog(const std::string& dir, const std::string& channel);
+	TIDLog() = default;
+	void init(const std::string& dir, const std::string& channel, const int rotation_size = 1024*1024);
 	~TIDLog(void) {};
 
 	static boost::shared_ptr<boost::log::core> core;

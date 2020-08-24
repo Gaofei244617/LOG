@@ -1,5 +1,7 @@
 #include "tid_log.h"
 #include <boost/filesystem.hpp>
+#include <unordered_map>
+
 #include <boost/log/expressions.hpp>
 #include <boost/log/attributes.hpp>
 #include <boost/log/sinks.hpp>
@@ -14,10 +16,10 @@ namespace expr = boost::log::expressions;
 
 boost::shared_ptr<boost::log::core> TIDLog::core = nullptr;
 
-// dir-日志保存路径, channel-通道名称
-TIDLog::TIDLog(const std::string& dir, const std::string& channel)
-	:LoggerModule(keywords::channel = channel)
+// dir-日志保存路径, channel-通道名称, 日志转存大小（字节, 默认1M）
+void TIDLog::init(const std::string& dir, const std::string& channel, const int rotation_size)
 {
+	LoggerModule.channel(channel);
 	core = boost::log::core::get();
 
 	if (boost::filesystem::exists(dir) == false)
@@ -27,7 +29,7 @@ TIDLog::TIDLog(const std::string& dir, const std::string& channel)
 
 	boost::shared_ptr<sinks::text_file_backend> backend = boost::make_shared<sinks::text_file_backend>(
 		keywords::file_name = dir + "/" + channel + "_%Y-%m-%d_%H-%M-%S_%N.log",
-		keywords::rotation_size = 1 * 1024 * 1024,
+		keywords::rotation_size = rotation_size,
 		keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0)
 		);
 
